@@ -18,7 +18,7 @@
         </header>
         <main>
             <!-- Lista Films -->
-            <h2 v-if="films!=null">Movies</h2>
+            <h2 v-if="films!=''">Movies</h2>
             <div id="films" class="d_flex">
                 <div class="film d_flex d_column" v-for="film in films">
                     <h3>{{film.title}}</h3>
@@ -33,14 +33,14 @@
             <!--END Lista Films -->
 
             <!-- Serie TV -->
-            <h2 v-if="tvShows!=null">Tv Shows</h2>
+            <h2 v-if="tvShows!=''">Tv Shows</h2>
             <div id="serie_tv" class="d_flex">
                 <div class="serie" v-for="show in tvShows">
                     <h3>{{show.name}}</h3>
                     <h3 v-if="show.title!=show.original_title">{{show.original_name}}</h3>
-                    <img v-if="show.original_language=='en'" :src="ImgUrl+'gb/flat/64.png'" width="50px"alt="">
-                    <img v-if="show.original_language=='ja'" :src="ImgUrl+'jp/flat/64.png'" width="50px" alt="">
-                    <img :src="ImgUrl+show.original_language+'/flat/64.png'" width="50px" alt="">
+                     <img v-if="show.origin_country.length===0" :src="ImgUrl+show.original_language+'/flat/64.png'" alt="">
+                    <img v-if="show.original_language=='en'" :src="ImgUrl+'gb/flat/64.png'" width="50px" alt="">
+                     <img v-else :src="ImgUrl+show.origin_country+'/flat/64.png'" width="50px" alt="">
                     <span>{{show.vote_average}}</span>
                 </div>
             </div>

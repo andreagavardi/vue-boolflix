@@ -5,9 +5,9 @@
         url:"https://api.themoviedb.org/3/",
         linkMovies:"search/movie",
         linkTvShow:"search/tv",
-        query:null,
-        films:null,
-        tvShows:null,
+        query:"",
+        films:"",
+        tvShows:"",
         ImgUrl:"https://www.countryflags.io/"
      },
     methods:{   
@@ -15,7 +15,7 @@
             axios
             .get(this.url+this.linkMovies+"?api_key="+this.API_key+"&language=it-IT&query="+this.query)
             .then(resp=>{
-                if(this.query!=null){
+                if(this.query!=""){
                     this.films=resp.data.results
                     console.log(this.films);
                     
