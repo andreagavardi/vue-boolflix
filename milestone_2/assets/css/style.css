@@ -9,18 +9,22 @@
 .d_column {
   flex-direction: column;
 }
-
+h2 {
+  text-align: center;
+}
 #site_header {
   text-align: center;
   padding: 1.5rem;
 }
 
-#films {
+#films,
+#serie_tv {
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.film {
+.film,
+.serie {
   padding: 1rem;
   margin: 0.5rem;
   width: 150px;
