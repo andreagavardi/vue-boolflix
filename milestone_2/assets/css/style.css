@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.d_flex {
+  display: flex;
+}
+.d_column {
+  flex-direction: column;
+}
+
+#site_header {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+#films {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.film {
+  padding: 1rem;
+  margin: 0.5rem;
+  width: 150px;
+  background-color: bisque;
+  text-align: center;
+}
