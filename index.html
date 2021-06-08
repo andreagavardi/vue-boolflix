@@ -11,11 +11,24 @@
 <body>
     
     <div id="app">
-        <header>
+        <header id="site_header">
             <label for="search"></label>
             <input type="text" id="search" v-model="query"placeholder="Cerca un titolo">
             <button @click="cercaFilm">Cerca</button>
         </header>
+        <main>
+            <div id="films" class="d_flex">
+                <div class="film d_flex d_column" v-for="film in films">
+                  <h2>{{film.title}}</h2>
+                  <h3>{{film.original_title}}</h3>
+                   <span>{{film.original_language}}</span>
+                   <span>{{film.vote_average}}</span>
+
+
+
+                </div>
+            </div>
+        </main>
     </div>
 
     <!-- Vue Js -->
