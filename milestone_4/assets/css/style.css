@@ -1,0 +1,108 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Common Rules */
+.d_flex {
+  display: flex;
+}
+.d_column {
+  flex-direction: column;
+}
+h2 {
+  text-align: center;
+  padding: 2rem;
+}
+h3 > span {
+  font-weight: 100;
+  font-size: 1.2rem;
+}
+
+#site_header {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/************
+Main CSS
+************/
+#films,
+#serie_tv {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.film,
+.serie {
+  margin: 0.25rem;
+  width: 250px;
+  height: 400px;
+  background-color: bisque;
+  position: relative;
+  border-style: groove;
+  border-color: darkcyan;
+}
+
+.poster {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+.poster_nf {
+  position: relative;
+  height: 100%;
+}
+.poster_nf h3 {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.808);
+}
+
+/* meta dat */
+.meta-data {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0.5rem;
+  transition: all 0.5s;
+}
+.meta-data h3:nth-child(2),
+.meta-data .flag,
+.rating_stars {
+  padding: 0.5rem 0;
+}
+.meta-data .overview {
+  font-size: 1rem;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+}
+.film:hover .meta-data,
+.serie:hover .meta-data {
+  cursor: pointer;
+  opacity: 1;
+  z-index: 2;
+  background-color: #000000;
+  color: white;
+  padding: 2rem 0.5rem;
+}
+
+/* RATING STARS */
+.rating_stars .far {
+  color: grey;
+}
+.rating_stars .fas {
+  color: yellow;
+}
+.rating_stars h3 {
+  display: inline-block;
+}
