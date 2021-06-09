@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoolFlix</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Style.css -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    
+    <div id="app">
+        <header id="site_header">
+            <label for="search"></label>
+            <input type="text" id="search" v-model="query"placeholder="Cerca un titolo">
+            <button @click="cercaFilm">Cerca</button>
+        </header>
+        <main>
+            <!-- Lista Films -->
+            <div v-if="error">{{error}}</div>
+            <h2 v-if="films!=''">Movies</h2>
+            <div id="films" class="d_flex">
+                <div class="film d_flex d_column" v-for="(film,index) in films" >
+                    <img class="poster" :src="posterUrl+film.poster_path" v-if="film.poster_path!=null" alt=""> 
+                    <div class="meta-data">
+                        <h3>Titolo: <span>{{film.title}}</span></h3>
+                        <h3 v-if="film.title!=film.original_title"> Titolo Originale: <span>{{film.original_title}}</span></h3> 
+                        <img class="flag" :src="ImgUrl+film.original_language +'-100' " width="50px"alt="">
+                        <div class="rating_stars">
+                        <h3>Voto:</h3>
+                            <i class="fas fa-star" v-for="vote in getRatings(film.vote_average)"></i>
+                            <i class="far fa-star" v-for="vote in 5 - getRatings(film.vote_average)"></i>
+                        </div>
+                        <h3 v-if=film.overview>Overview: <span class="overview">{{film.overview}}</span></h3>
+                    </div>                       
+                </div>
+            </div>
+            <!--END Lista Films -->
+
+            <!-- Serie TV -->
+            <div v-if="error_2">{{error_2}}</div>
+            <h2 v-if="tvShows!=''">Tv Shows</h2>
+            <div id="serie_tv" class="d_flex">
+                <div class="serie" v-for="show in tvShows">
+                    <img class="poster" :src="posterUrl+show.poster_path" v-if="show.poster_path!=null"  alt="">
+                    <div class="meta-data">
+                        <h3>{{show.name}}</h3>
+                        <h3 v-if="show.title!=show.original_title">{{show.original_name}}</h3>
+                        <img class="flag" :src="ImgUrl+show.original_language+'-100'" width="50px" alt="">
+                        <div class="rating_stars">
+                            Vote:
+                            <i class="fas fa-star" v-for="vote in getRatings(show.vote_average)"></i>
+                            <i class="far fa-star" v-for="vote in 5 - getRatings(show.vote_average)"></i>
+                        </div>
+                        <h3>Overview: <span class="overview">{{show.overview}}</span></h3>
+                    </div>
+                </div>
+            </div>
+            <!--END Serie TV -->
+
+        </main>
+    </div>
+
+    <!-- Vue Js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- main Js -->
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
