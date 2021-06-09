@@ -31,3 +31,12 @@ h2 {
   background-color: bisque;
   text-align: center;
 }
+
+/* RATING STARS */
+.rating_stars .far {
+  color: grey;
+}
+
+.rating_stars .fas {
+  color: yellow;
+}

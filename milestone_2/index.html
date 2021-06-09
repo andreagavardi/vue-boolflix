@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoolFlix</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <!-- Style.css -->
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -18,16 +21,19 @@
         </header>
         <main>
             <!-- Lista Films -->
+            <div v-if="error">{{error}}</div>
             <h2 v-if="films!=''">Movies</h2>
             <div id="films" class="d_flex">
-                <div class="film d_flex d_column" v-for="film in films">
+                <div class="film d_flex d_column" v-for="(film,index) in films" >
                     <h3>{{film.title}}</h3>
                     <h3 v-if="film.title!=film.original_title">{{film.original_title}}</h3>                  
-                    <img v-if="film.original_language=='en'" :src="ImgUrl+'gb/flat/64.png'" width="50px"alt="">
-                    <img v-if="film.original_language=='da'" :src="ImgUrl+'dk/flat/64.png'" width="50px" alt="">
-                    <img v-if="film.original_language=='ja'" :src="ImgUrl+'jp/flat/64.png'" width="50px" alt="">
-                    <img v-else :src="ImgUrl+film.original_language+'/flat/64.png' " width="50px"alt="">
-                    <span>{{film.vote_average}}</span>
+                    <img  :src="ImgUrl+film.original_language +'-100' " width="50px"alt="">
+                    <div class="rating_stars">
+                    Vote:
+                        <i class="fas fa-star" v-for="vote in getRatings(film.vote_average)"></i>
+                        <i class="far fa-star" v-for="vote in 5 - getRatings(film.vote_average)"></i>
+                    </div>
+                       
                 </div>
             </div>
             <!--END Lista Films -->
@@ -38,10 +44,12 @@
                 <div class="serie" v-for="show in tvShows">
                     <h3>{{show.name}}</h3>
                     <h3 v-if="show.title!=show.original_title">{{show.original_name}}</h3>
-                     <img v-if="show.origin_country.length===0" :src="ImgUrl+show.original_language+'/flat/64.png'" alt="">
-                    <img v-if="show.original_language=='en'" :src="ImgUrl+'gb/flat/64.png'" width="50px" alt="">
-                     <img v-else :src="ImgUrl+show.origin_country+'/flat/64.png'" width="50px" alt="">
-                    <span>{{show.vote_average}}</span>
+                    <img :src="ImgUrl+show.original_language+'-100'" width="50px" alt="">
+                    <div class="rating_stars">
+                        Vote:
+                        <i class="fas fa-star" v-for="vote in getRatings(show.vote_average)"></i>
+                        <i class="far fa-star" v-for="vote in 5 - getRatings(show.vote_average)"></i>
+                    </div>
                 </div>
             </div>
             <!--END Serie TV -->
