@@ -7,7 +7,9 @@
     <title>BoolFlix</title>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <!-- Style.css -->
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -15,13 +17,18 @@
     
     <div id="app">
         <header id="site_header">
-            <label for="search"></label>
-            <input type="text" id="search" v-model="query" @keyup.enter="cercaFilm"placeholder="Cerca un titolo">
-            <button @click="cercaFilm">Cerca</button>
+            <div class="logo">
+                <img src="https://image.tmdb.org/t/p/w342/wwemzKWzjKYJFfCeiB57q3r4Bcm.png" alt="">
+            </div>
+            <div class="search">
+                <label for="search"></label>
+                <input type="text" id="search" v-model="query" @keyup.enter="cercaFilm"placeholder="Cerca">
+                <i @click="cercaFilm" class="fas fa-search"></i>
+            </div>
         </header>
         <main>
             <!-- Lista Films -->
-            <div v-if="error">{{error}}</div>
+            <div class="error" v-if="error">{{error}}</div>
             <h2 v-if="films || emptyFilms">Movies</h2>
             <h2 v-if="emptyFilms">{{emptyFilms}}</h2>
             <div id="films" class="d_flex" v-if="error==null">
@@ -47,7 +54,7 @@
             <!--END Lista Films -->
 
             <!-- Serie TV -->
-            <div v-if="error_2">{{error_2}}</div>
+            <div class="error" v-if="error_2">{{error_2}}</div>
             <h2 v-if="tvShows || emptyTvShows">Tv Shows</h2>
             <h2 v-if="emptyTvShows">{{emptyTvShows}}</h2>
             <div id="serie_tv" class="d_flex" v-if="error_2==null">
