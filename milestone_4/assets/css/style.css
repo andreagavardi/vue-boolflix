@@ -31,13 +31,13 @@ Main CSS
 #films,
 #serie_tv {
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .film,
 .serie {
   margin: 0.25rem;
-  width: 250px;
+  width: calc(100% / 5 - 0.5rem);
   height: 400px;
   background-color: bisque;
   position: relative;
