@@ -88,7 +88,8 @@ Main CSS
   font-size: 1rem;
   font-weight: 600;
 }
-.section_top select:focus-visible {
+.section_top select:focus-visible,
+.search input:focus-visible {
   outline: none;
 }
 

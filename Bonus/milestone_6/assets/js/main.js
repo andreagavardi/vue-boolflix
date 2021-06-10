@@ -28,6 +28,10 @@
 
         /* funzione della barra di ricerca */
         ricerca(){
+
+            this.movieGenreSelected="All";
+            this.tvShowGenreSelected="All";
+
             /* ricerca movies */
             let movies = "https://api.themoviedb.org/3/search/movie?api_key=ee51577542fc46315161e476972d3102&language=it-IT&query="+this.query;
             let serieTv ="https://api.themoviedb.org/3/search/tv?api_key=ee51577542fc46315161e476972d3102&language=it-IT&query="+this.query;
