@@ -1,0 +1,202 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #1b1b1b;
+  font-family: "Varela Round", sans-serif;
+}
+
+/* Common Rules */
+.error {
+  color: white;
+}
+.d_flex {
+  display: flex;
+}
+.d_column {
+  flex-direction: column;
+}
+h2 {
+  width: 100%;
+  padding: 2rem;
+  color: white;
+  text-transform: uppercase;
+}
+
+h3 > span {
+  font-weight: 100;
+  font-size: 1.2rem;
+}
+
+label {
+  color: white;
+}
+
+#site_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+}
+.logo img {
+  width: 150px;
+}
+
+.search {
+  position: relative;
+}
+.search input {
+  font-size: 1.1rem;
+  height: 1.75rem;
+  width: 180px;
+  border-radius: 10px;
+  border: none;
+  padding: 0 0.5rem;
+}
+.search i {
+  cursor: pointer;
+  color: #1b1b1bd6;
+  position: absolute;
+  right: 5px;
+  top: 6px;
+}
+
+/************
+Main CSS
+************/
+#films,
+#serie_tv,
+#populars {
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.section_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.section_top select {
+  padding: 0.35rem;
+  margin: 2rem;
+  height: 1.75rem;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.section_top select:focus-visible {
+  outline: none;
+}
+
+.film,
+.serie {
+  margin: 0.5rem;
+  width: calc(100% / 5 - 1rem);
+  height: 400px;
+  background-color: bisque;
+  position: relative;
+  border-style: groove;
+  border-color: darkcyan;
+}
+
+.poster {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+.poster_nf {
+  position: relative;
+  height: 100%;
+}
+.poster_nf h3 {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.808);
+}
+
+/* meta dat */
+.meta-data {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 0.5rem;
+  transition: all 0.5s;
+}
+.meta-data h3:nth-child(2),
+.meta-data .flag,
+.rating_stars {
+  padding: 0.5rem 0;
+}
+.meta-data .overview {
+  font-size: 1rem;
+}
+.film:hover .meta-data,
+.serie:hover .meta-data {
+  cursor: pointer;
+  opacity: 1;
+  z-index: 2;
+  background-color: #1b1b1bc7;
+  color: white;
+  padding: 2rem 0.5rem;
+}
+
+/* RATING STARS */
+.rating_stars .far {
+  color: grey;
+}
+.rating_stars .fas {
+  color: yellow;
+}
+.rating_stars h3 {
+  display: inline-block;
+}
+
+.credits {
+  margin: 0.5rem 0;
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 992px) {
+  .film,
+  .serie {
+    width: calc(100% / 3 - 1rem);
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .film,
+  .serie {
+    margin: 1rem;
+    width: calc(100% / 2 - 2rem);
+  }
+}
+@media screen and (max-width: 480px) {
+  .film,
+  .serie {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+  }
+  .logo img {
+    width: 100px;
+  }
+  .search input {
+    font-size: 0.85rem;
+    height: 1.75rem;
+    width: 100px;
+    border-radius: 10px;
+    border: none;
+    padding: 0 0.5rem;
+  }
+}

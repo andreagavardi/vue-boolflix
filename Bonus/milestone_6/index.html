@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoolFlix</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <!-- Style.css -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    
+    <div id="app">
+        <!-- Site Header -->
+        <header id="site_header">
+            <div class="logo">
+                <img src="https://image.tmdb.org/t/p/w342/wwemzKWzjKYJFfCeiB57q3r4Bcm.png" alt="">
+            </div>
+            <div class="search">
+                <label for="search"></label>
+                <input type="text" id="search" v-model="query" @keyup.enter="ricerca"placeholder="Cerca">
+                <i @click="ricerca" class="fas fa-search"></i>
+            </div>
+        </header>
+        <!--END Site Header -->
+
+        <!-- Site main -->
+        <main>
+            <div  class="section_top" v-if="films || emptyFilms || error">
+                <h2 >Movies</h2>
+                <label for="film_genre">Seleziona un genere</label>
+                <select name="film_genre" v-model="movieGenreSelected">
+                    <option value="All" class="genre">All</option>
+                    <option :value="genre" class="genre" v-for="genre in generiFilms">{{genre.name}}</option>
+                </select>
+            </div>            
+            <div class="errors">  <!-- Messaggi di errore -->
+                <h2 v-if="error">{{error}}</h2>
+                <h2 v-if="emptyFilms">{{emptyFilms}}</h2>
+            </div>
+            <!-- Lista Films -->
+            <div id="films" class="d_flex" v-if="error==null">
+                <div class="film d_flex d_column" v-for="film in films" v-if="film.genre_ids.includes(movieGenreSelected.id) || movieGenreSelected == 'All'">
+                    <!-- copertina -->
+                    <img class="poster" :src="posterUrl+film.poster_path" v-if="film.poster_path!=null" alt="">
+
+                    <!-- copertina alternativa -->
+                    <div v-else  class="poster_nf">
+                        <img class="poster" src="./assets/img/keep-calm-poster-not-found.png" alt="">
+                        <h3>Titolo: <span>{{film.title}}</span></h3>
+                    </div>
+                    <!-- descrizione -->
+                    <div class="meta-data">
+                        <h3>Titolo: <span>{{film.title}}</span></h3>
+                        <h3 v-if="film.title!=film.original_title"> Titolo Originale: <span>{{film.original_title}}</span></h3> 
+                        <img class="flag" :src="ImgUrl+film.original_language +'-100' " width="50px"alt="">
+                        <div class="rating_stars">
+                        <h3>Voto:</h3>
+                            <i class="fas fa-star" v-for="vote in getRatings(film.vote_average)"></i>
+                            <i class="far fa-star" v-for="vote in 5 - getRatings(film.vote_average)"></i>
+                        </div>
+                        <div class="generi">
+                            <h4>Genere:
+                            </h4><span v-for="(genere,index) in generiFilms" v-if="film.genre_ids.includes(genere.id)">- {{genere.name}}
+                            </span>
+                        </div>
+                        <div class="credits" >
+                           <h4>Casting: </h4><span v-for="cast in film.casting">-{{cast}}</span>
+                        </div>
+                        <div class="overview">
+                            <h3 v-if="film.overview">Overview: <span>{{film.overview}}</span></h3>
+                        </div>
+                    </div>                       
+                </div>
+            </div>
+            <!--END Lista Films -->
+
+            <!-- Serie TV -->
+            <div class="section_top" v-if="tvShows || emptyTvShows || error_2">
+                <h2 >Tv Shows</h2>
+                <label for="film_genre">Seleziona un genere</label>
+                <select name="show_genre" v-model="tvShowGenreSelected">
+                    <option value="All" class="genre">All</option>
+                    <option :value="genre" class="genre" v-for="genre in generiTvShows">{{genre.name}}</option>
+                </select>
+            </div>
+            <div class="errors"> <!-- Messaggi di errore -->
+                <h2 v-if="error_2">{{error_2}}</h2>
+                <h2 v-if="emptyTvShows">{{emptyTvShows}}</h2>
+            </div>
+            <div id="serie_tv" class="d_flex" v-if="error_2==null">
+                <div class="serie" v-for="show in tvShows" v-if="show.genre_ids.includes(tvShowGenreSelected.id) || tvShowGenreSelected  == 'All'">
+                    <!-- copertina -->
+                    <img class="poster" :src="posterUrl+show.poster_path" v-if="show.poster_path!=null"  alt="">
+
+                    <!-- copertina alternativa-->
+                    <div v-else class="poster_nf">
+                        <img class="poster" src="./assets/img/keep-calm-poster-not-found.png" alt="">
+                        <h3>Titolo: <span>{{show.name}}</span></h3>
+                    </div>
+                    <!-- descrizione -->
+                    <div class="meta-data">
+                        <h3>{{show.name}}</h3>
+                        <h3 v-if="show.title!=show.original_title">{{show.original_name}}</h3>
+                        <img class="flag" :src="ImgUrl+show.original_language+'-100'" width="50px" alt="">
+                        <div class="rating_stars">
+                            Vote:
+                            <i class="fas fa-star" v-for="vote in getRatings(show.vote_average)"></i>
+                            <i class="far fa-star" v-for="vote in 5 - getRatings(show.vote_average)"></i>
+                        </div>
+                        <div class="generi">
+                            <h4>Genere:
+                            </h4><span v-for="(genere,index) in generiTvShows" v-if="show.genre_ids.includes(genere.id)">- {{genere.name}}
+                            </span>
+                        </div>
+                        <div class="credits">
+                            <h4>Casting: </h4><span v-for="cast in show.casting">-{{cast}}</span>
+                        </div>
+                        <h3 v-if="show.overview">Overview: <span class="overview">{{show.overview}}</span></h3>
+                    </div>
+                </div>
+            </div>
+            <!--END Serie TV -->
+
+            <!-- Popular DEFAULT -->
+            <div id="populars" class="d_flex" v-if="query==''">
+                <h2>Popular Movies</h2>
+                <div class="film d_flex d_column" v-for="popular in popularMovies">
+                    <!-- copertina -->
+                    <img class="poster" :src="posterUrl+popular.poster_path" v-if="popular.poster_path!=null" alt="">
+
+                    <!-- copertina alternativa -->
+                    <div v-else class="poster_nf">
+                        <img class="poster" src="./assets/img/keep-calm-poster-not-found.png" alt="">
+                        <h3>Titolo: <span>{{popular.title}}</span></h3>
+                    </div>
+                    <!-- descrizione -->
+                    <div class="meta-data">
+                        <h3>Titolo: <span>{{popular.title}}</span></h3>
+                        <h3 v-if="popular.title!=popular.original_title"> Titolo Originale: <span>{{popular.original_title}}</span>
+                        </h3>
+                        <img class="flag" :src="ImgUrl+popular.original_language +'-100' " width="50px" alt="">
+                        <div class="rating_stars">
+                            <h3>Voto:</h3>
+                            <i class="fas fa-star" v-for="vote in getRatings(popular.vote_average)"></i>
+                            <i class="far fa-star" v-for="vote in 5 - getRatings(popular.vote_average)"></i>
+                        </div>
+                        <div class="generi">
+                            <h4>Genere: 
+                            </h4><span v-for="(genere,index) in generiFilms" v-if="popular.genre_ids.includes(genere.id)">- {{genere.name}} </span>
+                        </div>
+                        <div class="credits">
+                            <h4>Casting: </h4><span v-for="cast in popular.casting">- {{cast}}</span>
+                        </div>
+                        <div class="overview">
+                            <h3 v-if=popular.overview>Overview: <span>{{popular.overview}}</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END Popular DEFAULT -->
+
+        </main>
+        <!--END Site main -->
+
+    </div>
+
+    <!-- Vue Js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- main Js -->
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
