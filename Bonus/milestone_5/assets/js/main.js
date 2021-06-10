@@ -4,6 +4,9 @@
         popularMovies:"",
         API_key:"ee51577542fc46315161e476972d3102",
         url:"https://api.themoviedb.org/3/",
+
+       /*  https://api.themoviedb.org/3/search/movie?api_key=ee51577542fc46315161e476972d3102&language=it-IT&query=" */
+
         linkMovies:"search/movie",
         linkTvShow:"search/tv",
         error:null,
@@ -26,90 +29,79 @@
         /* funzione della barra di ricerca */
         ricerca(){
             /* ricerca movies */
-            axios
-            .get(this.url+this.linkMovies+"?api_key="+this.API_key+"&language=it-IT&query="+this.query)
-            .then(resp=>{
-                if(this.query!=""){
-                    this.films=resp.data.results;
-                    this.emptyFilms=""; //azzero i vari errori così da non mostrarli nella nuova ricerca
-                    this.error=null
-                    /* console.log(this.films); */
-                   
-                   
-                }
-                if(this.films.length==0){ //se la ricerca non ha risultati
-                    this.emptyFilms='La ricerca: "' + this.query +'" non ha prodotto nessun risultato' 
-                }
-            })
-            .catch(error=>{
-                console.error(error);
-                this.error='OOOPS QUALCOSA È ANDATO STORTO: ' +error;
-            })
-            .finally(resp=>{      
-                /* ricerca casting dei singoli film */   
-                this.ricercaCasting(this.films);      
-                
-            });
-            /*END ricerca movies */
+            let movies = "https://api.themoviedb.org/3/search/movie?api_key=ee51577542fc46315161e476972d3102&language=it-IT&query="+this.query;
+            let serieTv ="https://api.themoviedb.org/3/search/tv?api_key=ee51577542fc46315161e476972d3102&language=it-IT&query="+this.query;
 
-            /* ricerca Tv Series */
-            axios
-            .get(this.url+this.linkTvShow+"?api_key="+this.API_key+"&language=it-IT&query="+this.query)
-            .then(resp=>{
-                if(this.query!=null){
-                    this.tvShows=resp.data.results
-                    /* console.log(this.tvShows); */
+            const requestMovies = axios.get(movies);
+            const requestSerieTv = axios.get(serieTv);
+            axios.all([requestMovies,requestSerieTv])
+            .then(
+                axios.spread((...responses)=>{
+                    const responseMovies = responses[0];
+                    const responseSerieTv = responses[1];
+
+                    /* ricerca movies */
+                    this.films = responseMovies.data.results;
+                    this.emptyFilms="";//azzero i vari errori così da non mostrarli nella nuova ricerca
+                    this.error=null;
+                    if(this.films.length==0){ //se la ricerca non ha risultati
+                        this.emptyFilms='La ricerca: "' + this.query +'" non ha prodotto nessun risultato' 
+                    }
+                    this.ricercaCasting(this.films,"movie");
+                    //console.log(this.films);
+
+                    /* ricerca serieTv */
+                     this.tvShows=responseSerieTv.data.results;
+                     console.log(this.tvShows);
                     this.emptyTvShows=""; //azzero i vari errori così da non mostrarli nella nuova ricerca
                     this.error_2=null                    
-                }
-                if(this.tvShows.length==0){ //se la ricerca non ha risultati
-                    this.emptyTvShows='La ricerca: "' + this.query +'" non ha prodotto nessun risultato'
-                }
-            })
-            .catch(error=>{
-                console.error(error);
-                this.error_2='OOOPS QUALCOSA È ANDATO STORTO: ' +error;
-            })
-            .finally(resp=>{
-                this.ricercaCasting(this.tvShows);    
-            });
-            /*END ricerca Tv Series */
-            
+                    if(this.tvShows.length==0){ //se la ricerca non ha risultati
+                        this.emptyTvShows='La ricerca: "' + this.query +'" non ha prodotto nessun risultato'
+                    }
+                    this.ricercaCasting(this.tvShows,"tv"); 
+                })
+            )
+            .catch(errors=>{
+                console.error(errors);
+                this.error='OOOPS QUALCOSA È ANDATO STORTO: ' +errors;
+            })            
         },
 
         /* Ricerca Casting */
-        ricercaCasting(lista){
+        ricercaCasting(lista,category){
             lista.forEach(film => {
-                        console.log(film);
-                        axios
-                        .get(`${this.url}/movie/${film.id}/credits?api_key=${this.API_key}&language=it-IT`)
-                        .then(resp=>{                            
-                            this.$set(film,'casting',[]);
-                            
-                            for(let i=0; i < 5; i++){
-                                if(resp.data.cast[i]!=undefined){
-                                    film.casting.push(resp.data.cast[i].name)
+                axios
+                .get(`${this.url}${category}/${film.id}/credits?api_key=${this.API_key}&language=it-IT`)
+                .then(resp=>{                            
+                    this.$set(film,'casting',[]);
+                    
+                    for(let i=0; i < 5; i++){
+                        if(resp.data.cast[i]!=undefined){
+                            film.casting.push(resp.data.cast[i].name);
+                        }
+                    }
+                })
+            });
+        },
 
-                                }
-                            }
-                        })
-                    });
-        }
     },
     mounted(){
         /* Film Popolari Caricati al page landing per non lasciare la schermata vuota */
-        axios
-            .get("https://api.themoviedb.org/3/movie/popular?api_key=ee51577542fc46315161e476972d3102&language=it-IT")
-            .then(resp=>{
-                    /* console.log(resp.data.results); */
-                    this.popularMovies=resp.data.results;
+        let popular="https://api.themoviedb.org/3/movie/popular?api_key=ee51577542fc46315161e476972d3102&language=it-IT";
+        const requestPopular= axios.get(popular);
+        axios.all([requestPopular])
+        .then(
+            axios.spread((...responses)=>{
+                const responsePopular = responses[0];
+                /* console.log(resp.data.results); */
+                this.popularMovies=responsePopular.data.results;
+                this.ricercaCasting(this.popularMovies,"movie");
             })
-            .catch(error=>{
-                console.error('impossibile caricare i film popolari: '+error);
-            })
-            .finally(resp=>{
-                this.ricercaCasting(this.popularMovies);    
-            })
+        )    
+        .catch(error=>{
+            console.error('impossibile caricare i film popolari: '+error);
+        });
+
         
        
     } 

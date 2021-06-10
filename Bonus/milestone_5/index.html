@@ -39,11 +39,15 @@
             <div id="films" class="d_flex" v-if="error==null">
             <!-- Lista Films -->
                 <div class="film d_flex d_column" v-for="film in films" >
+                    <!-- copertina -->
                     <img class="poster" :src="posterUrl+film.poster_path" v-if="film.poster_path!=null" alt="">
+
+                    <!-- copertina alternativa -->
                     <div v-else  class="poster_nf">
                         <img class="poster" src="./assets/img/keep-calm-poster-not-found.png" alt="">
                         <h3>Titolo: <span>{{film.title}}</span></h3>
                     </div>
+                    <!-- descrizione -->
                     <div class="meta-data">
                         <h3>Titolo: <span>{{film.title}}</span></h3>
                         <h3 v-if="film.title!=film.original_title"> Titolo Originale: <span>{{film.original_title}}</span></h3> 
@@ -72,12 +76,15 @@
             </div>
             <div id="serie_tv" class="d_flex" v-if="error_2==null">
                 <div class="serie" v-for="show in tvShows">
+                    <!-- copertina -->
                     <img class="poster" :src="posterUrl+show.poster_path" v-if="show.poster_path!=null"  alt="">
+
+                    <!-- copertina alternativa-->
                     <div v-else class="poster_nf">
                         <img class="poster" src="./assets/img/keep-calm-poster-not-found.png" alt="">
                         <h3>Titolo: <span>{{show.name}}</span></h3>
                     </div>
-                    
+                    <!-- descrizione -->
                     <div class="meta-data">
                         <h3>{{show.name}}</h3>
                         <h3 v-if="show.title!=show.original_title">{{show.original_name}}</h3>
@@ -100,11 +107,15 @@
             <div id="populars" class="d_flex" v-if="query==''">
                 <h2>Popular Movies</h2>
                 <div class="film d_flex d_column" v-for="popular in popularMovies">
+                    <!-- copertina -->
                     <img class="poster" :src="posterUrl+popular.poster_path" v-if="popular.poster_path!=null" alt="">
+
+                    <!-- copertina alternativa -->
                     <div v-else class="poster_nf">
                         <img class="poster" src="./assets/img/keep-calm-poster-not-found.png" alt="">
                         <h3>Titolo: <span>{{popular.title}}</span></h3>
                     </div>
+                    <!-- descrizione -->
                     <div class="meta-data">
                         <h3>Titolo: <span>{{popular.title}}</span></h3>
                         <h3 v-if="popular.title!=popular.original_title"> Titolo Originale: <span>{{popular.original_title}}</span>
