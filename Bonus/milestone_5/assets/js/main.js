@@ -5,16 +5,14 @@
         API_key:"ee51577542fc46315161e476972d3102",
         url:"https://api.themoviedb.org/3/",
 
-       /*  https://api.themoviedb.org/3/search/movie?api_key=ee51577542fc46315161e476972d3102&language=it-IT&query=" */
-
-        linkMovies:"search/movie",
-        linkTvShow:"search/tv",
         error:null,
         error_2:null,
         query:"",
         films:"",
+        generiFilms:"",
         emptyFilms:"",
         tvShows:"",
+        generiTvShows:"",
         emptyTvShows:"",
         ImgUrl:"https://www.unknown.nu/flags/images/",
         posterUrl:"https://image.tmdb.org/t/p/w342"
@@ -51,8 +49,8 @@
                     //console.log(this.films);
 
                     /* ricerca serieTv */
-                     this.tvShows=responseSerieTv.data.results;
-                     console.log(this.tvShows);
+                    this.tvShows=responseSerieTv.data.results;
+                    console.log(this.tvShows);
                     this.emptyTvShows=""; //azzero i vari errori così da non mostrarli nella nuova ricerca
                     this.error_2=null                    
                     if(this.tvShows.length==0){ //se la ricerca non ha risultati
@@ -87,19 +85,32 @@
     },
     mounted(){
         /* Film Popolari Caricati al page landing per non lasciare la schermata vuota */
+
         let popular="https://api.themoviedb.org/3/movie/popular?api_key=ee51577542fc46315161e476972d3102&language=it-IT";
+        let generiFilm = "https://api.themoviedb.org/3/genre/movie/list?api_key=ee51577542fc46315161e476972d3102&language=it-IT"
+        let generiTvShows="https://api.themoviedb.org/3/genre/tv/list?api_key=ee51577542fc46315161e476972d3102&language=it-IT"
         const requestPopular= axios.get(popular);
-        axios.all([requestPopular])
+        const requestGeneriFilm = axios.get(generiFilm);
+        const requestGeneriTvShows= axios.get(generiTvShows);
+        axios.all([requestPopular,requestGeneriFilm,requestGeneriTvShows])
         .then(
             axios.spread((...responses)=>{
                 const responsePopular = responses[0];
+                const responseGeneriFilm = responses[1];
+                const responseGeneriTvShows = responses[2];
                 /* console.log(resp.data.results); */
                 this.popularMovies=responsePopular.data.results;
                 this.ricercaCasting(this.popularMovies,"movie");
+
+                /* Generi dei film */
+                this.generiFilms=responseGeneriFilm.data.genres;
+                //console.log(this.generiFilms);
+                this.generiTvShows = responseGeneriTvShows.data.genres;
+                console.log(this.generiTvShows);
             })
         )    
         .catch(error=>{
-            console.error('impossibile caricare i film popolari: '+error);
+            console.error('impossibile il caricamento: '+error);
         });
 
         

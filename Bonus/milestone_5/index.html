@@ -57,6 +57,11 @@
                             <i class="fas fa-star" v-for="vote in getRatings(film.vote_average)"></i>
                             <i class="far fa-star" v-for="vote in 5 - getRatings(film.vote_average)"></i>
                         </div>
+                        <div class="generi">
+                            <h4>Genere:
+                            </h4><span v-for="(genere,index) in generiFilms" v-if="film.genre_ids.includes(genere.id)">- {{genere.name}}
+                            </span>
+                        </div>
                         <div class="credits" >
                            <h4>Casting: </h4><span v-for="cast in film.casting">-{{cast}}</span>
                         </div>
@@ -94,6 +99,11 @@
                             <i class="fas fa-star" v-for="vote in getRatings(show.vote_average)"></i>
                             <i class="far fa-star" v-for="vote in 5 - getRatings(show.vote_average)"></i>
                         </div>
+                        <div class="generi">
+                            <h4>Genere:
+                            </h4><span v-for="(genere,index) in generiTvShows" v-if="show.genre_ids.includes(genere.id)">- {{genere.name}}
+                            </span>
+                        </div>
                         <div class="credits">
                             <h4>Casting: </h4><span v-for="cast in show.casting">-{{cast}}</span>
                         </div>
@@ -126,8 +136,12 @@
                             <i class="fas fa-star" v-for="vote in getRatings(popular.vote_average)"></i>
                             <i class="far fa-star" v-for="vote in 5 - getRatings(popular.vote_average)"></i>
                         </div>
+                        <div class="generi">
+                            <h4>Genere: 
+                            </h4><span v-for="(genere,index) in generiFilms" v-if="popular.genre_ids.includes(genere.id)">- {{genere.name}} </span>
+                        </div>
                         <div class="credits">
-                            <h4>Casting: </h4><span v-for="cast in popular.casting">-{{cast}}</span>
+                            <h4>Casting: </h4><span v-for="cast in popular.casting">- {{cast}}</span>
                         </div>
                         <div class="overview">
                             <h3 v-if=popular.overview>Overview: <span>{{popular.overview}}</span></h3>
