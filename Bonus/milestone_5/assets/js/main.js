@@ -33,7 +33,9 @@
                     this.films=resp.data.results;
                     this.emptyFilms=""; //azzero i vari errori così da non mostrarli nella nuova ricerca
                     this.error=null
-                    /* console.log(this.films); */                 
+                    /* console.log(this.films); */
+                   
+                   
                 }
                 if(this.films.length==0){ //se la ricerca non ha risultati
                     this.emptyFilms='La ricerca: "' + this.query +'" non ha prodotto nessun risultato' 
@@ -43,6 +45,11 @@
                 console.error(error);
                 this.error='OOOPS QUALCOSA È ANDATO STORTO: ' +error;
             })
+            .finally(resp=>{      
+                /* ricerca casting dei singoli film */   
+                this.ricercaCasting(this.films);      
+                
+            });
             /*END ricerca movies */
 
             /* ricerca Tv Series */
@@ -63,8 +70,30 @@
                 console.error(error);
                 this.error_2='OOOPS QUALCOSA È ANDATO STORTO: ' +error;
             })
+            .finally(resp=>{
+                this.ricercaCasting(this.tvShows);    
+            });
             /*END ricerca Tv Series */
             
+        },
+
+        /* Ricerca Casting */
+        ricercaCasting(lista){
+            lista.forEach(film => {
+                        console.log(film);
+                        axios
+                        .get(`${this.url}/movie/${film.id}/credits?api_key=${this.API_key}&language=it-IT`)
+                        .then(resp=>{                            
+                            this.$set(film,'casting',[]);
+                            
+                            for(let i=0; i < 5; i++){
+                                if(resp.data.cast[i]!=undefined){
+                                    film.casting.push(resp.data.cast[i].name)
+
+                                }
+                            }
+                        })
+                    });
         }
     },
     mounted(){
@@ -79,7 +108,7 @@
                 console.error('impossibile caricare i film popolari: '+error);
             })
             .finally(resp=>{
-                this.ricercaCrediti(this.popularMovies);    
+                this.ricercaCasting(this.popularMovies);    
             })
         
        

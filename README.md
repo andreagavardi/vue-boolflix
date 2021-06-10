@@ -50,11 +50,8 @@ la poster_path con w342 ) ​
 ● Andando con il mouse sopra una card (on hover), appaiono le informazioni
 aggiuntive già prese nei punti precedenti più la overview
 
-Consigli:
-Andate in fila, seguendo le milestone, non pensate all’interfaccia grafica fino al punto 4
-Non pensate all’interfaccia grafica fino al punto 4 (si, l’ho scritto due volte), tutto può essere risolto con una <ul> non stilizzata
-Ricordatevi quanto imparato finora con le diverse esercitazioni:
-Affrontate sempre prima il caso base minimo, senza complicazioni (ad es. “Se il titolo originale è uguale al titolo, magari dovrei nasconderlo”, “Se faccio una ricerca che non ha nessun risultato dovrei scrivere qualcosa” sono domande da NON FARSI fino a quando non si è fatto completamente un caso base)
-Se ti viene volta di copiare/incollare codice, NON FARLO, fai una funzione! Quei pochi minuti risparmiati renderanno il tuo codice meno leggibile ed ogni volta che dovrai intervenire su quella parte perderai molto più tempo
-Prima di andare avanti, assicurati di aver risolto quella parte nel miglior modo possibile (codice non ripetuto, minimo codice possibile, funzioni chiare e riutilizzabili). Risparmierai tantissimo tempo risolvendo gli esercizi successivi
-Meglio risolvere una milestone in meno, ma con codice scritto bene 4. Per avere la lista delle lingue utilizzare: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+Milestone 5 (Opzionale):
+Partendo da un film o da una serie, richiedere all'API quali sono gli attori che fanno
+parte del cast aggiungendo alla nostra scheda ​ Film / Serie​ SOLO i primi 5 restituiti
+dall’API con Nome e Cognome, e i generi associati al film con questo schema:
+“Genere 1, Genere 2, …”.

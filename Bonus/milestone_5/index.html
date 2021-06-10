@@ -57,7 +57,7 @@
                            <h4>Casting: </h4><span v-for="cast in film.casting">-{{cast}}</span>
                         </div>
                         <div class="overview">
-                            <h3 v-if=film.overview>Overview: <span>{{film.overview}}</span></h3>
+                            <h3 v-if="film.overview">Overview: <span>{{film.overview}}</span></h3>
                         </div>
                     </div>                       
                 </div>
@@ -90,7 +90,7 @@
                         <div class="credits">
                             <h4>Casting: </h4><span v-for="cast in show.casting">-{{cast}}</span>
                         </div>
-                        <h3>Overview: <span class="overview">{{show.overview}}</span></h3>
+                        <h3 v-if="show.overview">Overview: <span class="overview">{{show.overview}}</span></h3>
                     </div>
                 </div>
             </div>
