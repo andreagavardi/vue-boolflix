@@ -32,11 +32,11 @@
 
             const requestMovies = axios.get(movies);
             const requestSerieTv = axios.get(serieTv);
+
             axios.all([requestMovies,requestSerieTv])
             .then(
                 axios.spread((...responses)=>{
                     const responseMovies = responses[0];
-                    const responseSerieTv = responses[1];
 
                     /* ricerca movies */
                     this.films = responseMovies.data.results;
@@ -48,6 +48,7 @@
                     this.ricercaCasting(this.films,"movie");
                     //console.log(this.films);
 
+                     const responseSerieTv = responses[1];
                     /* ricerca serieTv */
                     this.tvShows=responseSerieTv.data.results;
                     console.log(this.tvShows);
